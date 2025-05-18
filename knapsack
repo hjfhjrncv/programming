@@ -1,0 +1,147 @@
+#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+using ll = long long;
+
+ll solve(vector<ll> v, vector<ll> w, ll S, ll n) {
+    ll dp[n + 1][S + 1];
+    for (int i = 0; i <= S; i++) {
+        dp[0][i] = 0;
+    }
+    for (int i = 0; i <= n; i++) {
+        dp[i][0] = 0;
+    }
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j <= S; j++) {
+            if (j - w[i] >= 0) {
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+    return dp[n][S];
+}
+
+int main() {
+    ll S, N;
+    cin >> S >> N;
+
+    vector<ll> v(1), w(1), k(N);  // index 0 dummy, like you used
+    for (int i = 0; i < N; ++i) {
+        ll val, wei, cnt;
+        cin >> val >> wei >> cnt;
+        k[i] = cnt;
+
+        // Binary Decomposition for bounded knapsack
+        for (ll j = 1; cnt > 0; j <<= 1) {
+            ll take = min(j, cnt);
+            v.push_back(val * take);
+            w.push_back(wei * take);
+            cnt -= take;
+        }
+    }
+
+    ll newN = v.size() - 1; 
+    ll ans = solve(v, w, S, newN);
+    cout << ans << endl;
+
+    return 0;
+}
+
+#ifndef MOLECULES_H
+#define MOLECULES_H
+
+#include <vector>
+#include <algorithm>
+
+std::vector<int> find_subset(int l, int u, std::vector<int> w) {
+    int n = w.size();
+    std::vector<std::pair<int, int>> in;
+    for (int i = 0; i < n; i++)
+        in.push_back({w[i], i});
+    std::sort(in.begin(), in.end());
+
+    int left = 0, right = 0;
+    long long sum = 0;
+
+    while (right < n) {
+        sum += in[right].first;
+        while (sum > u && left <= right) {
+            sum -= in[left].first;
+            ++left;
+        }
+        if (sum >= l && sum <= u) {
+            std::vector<int> ans;
+            for (int i = left; i <= right; i++)
+                ans.push_back(in[i].second);
+            return ans;
+        }
+        ++right;
+    }
+
+    return {};
+}
+
+#endif
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    for (int &x : a) cin >> x;
+    sort(a.begin(), a.end());
+    
+    vector<int> d;
+    for (int i = 1; i < n; i++) d.push_back(a[i] - a[i - 1] - 1);
+    
+    sort(d.begin(), d.end(), greater<int>());
+    
+    k = n - k;
+    while (k-- && !d.empty()) {
+        n += d.back();
+        d.pop_back();
+    }
+    
+    cout << n << endl;
+    return 0;
+}
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    for (int &x : a) cin >> x;
+    sort(a.begin(), a.end());
+    
+    vector<int> d;
+    for (int i = 1; i < n; i++) d.push_back(a[i] - a[i - 1] - 1);
+    
+    sort(d.begin(), d.end(), greater<int>());
+    
+    k = n - k;
+    while (k-- && !d.empty()) {
+        n += d.back();
+        d.pop_back();
+    }
+    
+    cout << n << endl;
+    return 0;
+}
+
+
+
