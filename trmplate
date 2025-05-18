@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define int long long
+#define pb push_back
+#define all(v) (v).begin(), (v).end()
+#define fast_io ios::sync_with_stdio(false); cin.tie(nullptr);
+#define fi first
+#define se second
+#define pii pair<int, int>
+#define vi vector<int>
+ 
+int mod = 1e9 + 7;
+ 
+int modpow(int a, int b, int m = mod) {
+    int res = 1;
+    a %= m;
+    while (b) {
+        if (b & 1) res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+    }
+    return res;
+}
+ 
+int gcd(int a, int b) { return b ? gcd(b, a % b) : a; }
+int lcm(int a, int b) { return a / gcd(a, b) * b; }
+ 
+int32_t main() {
+    fast_io
+    string p;
+    cin >> p;
+    for (char c : p) {
+        if (c == 'H' || c == 'Q' || c == '9') {
+            cout << "YES\n";
+            return 0;
+        }
+    }
+    cout << "NO\n";
+    return 0;
+}
